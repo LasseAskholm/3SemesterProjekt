@@ -1,8 +1,8 @@
 package Data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataMain {
 
@@ -43,5 +43,33 @@ public class DataMain {
     public static void main(String[] args) {
         DataMain db = DataMain.getInstance();
 
+
+
     }
+
+
+   /* public List<String> getGenres(int prod_id) {
+
+        List<String> returnList = new ArrayList<>();
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(
+                    "SELECT genre " +
+                            "FROM genre "+
+                            "JOIN genres_production_association ON genre.id = genres_production_association.genre_id " +
+                            "WHERE production_id = ?;");
+            stmt.setInt(1, prod_id);
+
+            ResultSet resultSet = stmt.executeQuery();
+
+            while(resultSet.next()) {
+                returnList.add(resultSet.getString(1));
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        return returnList;
+    }*/
 }
