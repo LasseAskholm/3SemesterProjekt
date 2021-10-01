@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.digitalpetri.netty:netty-channel-fsm:0.5">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/digitalpetri/netty/netty-channel-fsm/0.5/netty-channel-fsm-0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/com/digitalpetri/netty/netty-channel-fsm/0.5/netty-channel-fsm-0.5-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/digitalpetri/netty/netty-channel-fsm/0.5/netty-channel-fsm-0.5-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
