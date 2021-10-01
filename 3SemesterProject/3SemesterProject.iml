@@ -40,5 +40,7 @@
     <orderEntry type="library" name="Maven: io.netty:netty-buffer:4.1.54.Final" level="project" />
     <orderEntry type="library" name="Maven: io.netty:netty-transport:4.1.54.Final" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.milo:sdk-core:0.6.3" level="project" />
+    <orderEntry type="library" name="Maven: org.postgresql:postgresql:42.2.20" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.checkerframework:checker-qual:3.5.0" level="project" />
   </component>
 </module>
