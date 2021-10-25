@@ -25,6 +25,7 @@ import org.eclipse.milo.opcua.stack.core.types.structured.EndpointDescription;
 import org.eclipse.milo.opcua.stack.core.types.structured.MonitoredItemCreateRequest;
 import org.eclipse.milo.opcua.stack.core.types.structured.MonitoringParameters;
 import org.eclipse.milo.opcua.stack.core.types.structured.ReadValueId;
+import org.eclipse.milo.opcua.stack.core.util.EndpointUtil;
 
 import java.util.Arrays;
 import java.util.List;
@@ -33,10 +34,14 @@ public class Subscription {
     public static void main(String[] args) {
         try
         {
-            List<EndpointDescription> endpoints = DiscoveryClient.getEndpoints("opc.tcp://DESKTOP-F2L9C1C.mshome.net:53530/OPCUA/SimulationServer").get();
+            List<EndpointDescription> endpoints = DiscoveryClient.getEndpoints("opc.tcp://192.168.0.122:4840").get();
+
+            EndpointDescription epd = EndpointUtil.updateUrl(endpoints.get(0), "192.168.0.122", 4840);
 
             OpcUaClientConfigBuilder cfg = new OpcUaClientConfigBuilder();
-            cfg.setEndpoint(endpoints.get(0));
+
+            //edit endpoints.get(0)
+            cfg.setEndpoint(epd);
 
             OpcUaClient client = OpcUaClient.create(cfg.build());
             client.connect().get();
