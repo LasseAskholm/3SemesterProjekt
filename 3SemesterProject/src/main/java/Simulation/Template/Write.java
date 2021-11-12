@@ -30,32 +30,36 @@ public class Write {
 
             OpcUaClientConfigBuilder cfg = new OpcUaClientConfigBuilder();
 
-
             cfg.setEndpoint(epd);
 
             OpcUaClient client = OpcUaClient.create(cfg.build());
             client.connect().get();
 
-            NodeId nodeIdInt = NodeId.parse("ns=6;s=::Program:Cube.Command.CmdChangeRequest");
-            client.writeValue(nodeIdInt, DataValue.valueOnly(new Variant(true))).get();
-
+/*
             // 0 <= Value <= 65535
             NodeId nodeIdP0 = NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value");
-            client.writeValue(nodeIdP0, new DataValue(new Variant(18.0))).get();
+            client.writeValue(nodeIdP0, DataValue.valueOnly(new Variant(18F))).get();
 
             // 0->5
             NodeId nodeIdP1 = NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value");
-            client.writeValue(nodeIdP1, new DataValue(new Variant(1.0))).get();
+            client.writeValue(nodeIdP1, DataValue.valueOnly(new Variant(11f))).get();
 
             // 0 <= Value <= 65535
             NodeId nodeIdP2 = NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value");
-            client.writeValue(nodeIdP2, new DataValue(new Variant(1000))).get();
+            client.writeValue(nodeIdP2, DataValue.valueOnly(new Variant(100f))).get();
+
 
 
             NodeId nodeIdRun = NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd");
-            client.writeValue(nodeIdRun, DataValue.valueOnly(new Variant(1))).get();
+            client.writeValue(nodeIdRun, DataValue.valueOnly(new Variant(2))).get();
+*/
+
+            NodeId nodeIdRun = NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed");
+            client.writeValue(nodeIdRun, DataValue.valueOnly(new Variant(99f))).get();
 
 
+            NodeId nodeIdInt = NodeId.parse("ns=6;s=::Program:Cube.Command.CmdChangeRequest");
+            client.writeValue(nodeIdInt, DataValue.valueOnly(new Variant(true))).get();
 
         }
         catch(Throwable ex)
