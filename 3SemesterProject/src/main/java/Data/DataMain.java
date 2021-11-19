@@ -56,16 +56,14 @@ public class DataMain {
 
     private static void testInsert(String s) throws SQLException {
 
-
         try{
             connection.setAutoCommit(false);
-
             String test = "INSERT INTO java_tests(tests) values(\"test1\")";
             PreparedStatement prep = connection.prepareStatement(test);
             prep.execute();
             prep.close();
-
             connection.commit();
+
         }catch (Exception e){
             System.out.println("caught");
             e.printStackTrace();
@@ -73,14 +71,29 @@ public class DataMain {
 
 
     }
-    public static void main(String[] args) throws SQLException {
+    public String getCommand() throws SQLException {
+        try{
+            String selectStmt="SELECT command from commands";
+            PreparedStatement pStmt=connection.prepareStatement(selectStmt);
+            ResultSet resultSet = pStmt.executeQuery();
+            resultSet.next();
+            String returnString=resultSet.getString(1);
+            String deleteString ="TRUNCATE TABLE commands";
+            PreparedStatement pStmt2= connection.prepareStatement(deleteString);
+            pStmt2.execute();
+            return returnString;
+        }catch (SQLException e){
+            return null;
 
-        DataMain db = DataMain.getInstance();
-
-        testInsert("s");
-
+        }
 
     }
+    public static void main(String[] args) throws SQLException {
+        DataMain db = DataMain.getInstance();
+        testInsert("s");
+
+    }
+
 
 
    /* public List<String> getGenres(int prod_id) {

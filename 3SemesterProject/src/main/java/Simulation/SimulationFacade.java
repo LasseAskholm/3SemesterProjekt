@@ -7,6 +7,7 @@ import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 import org.eclipse.milo.opcua.sdk.client.api.config.OpcUaClientConfigBuilder;
 import org.eclipse.milo.opcua.stack.client.DiscoveryClient;
 import org.eclipse.milo.opcua.stack.core.UaException;
+import org.eclipse.milo.opcua.stack.core.types.builtin.DataValue;
 import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
 import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
 import org.eclipse.milo.opcua.stack.core.types.structured.EndpointDescription;
@@ -47,12 +48,19 @@ public class SimulationFacade {
 
     public void write(Variant variant,NodeId nodeId) throws ExecutionException, InterruptedException {
         write.write(variant,nodeId);
+        sendChangeRequest();
+
     }
     public void subscribe(NodeId nodeId){
         subscription.subscribe(nodeId);
     }
-    public void read(NodeId nodeId){
+    public void read(NodeId nodeId) throws ExecutionException, InterruptedException {
         read.read(nodeId);
+        sendChangeRequest();
+    }
+    public void sendChangeRequest() throws ExecutionException, InterruptedException {
+        NodeId nodeIdInt = NodeId.parse("ns=6;s=::Program:Cube.Command.CmdChangeRequest");
+        client.writeValue(nodeIdInt, DataValue.valueOnly(new Variant(true))).get();
     }
 
 
