@@ -9,6 +9,7 @@ package Simulation.Template;/*
  * @author athil
  */
 
+import Simulation.SimulationFacade;
 import org.eclipse.milo.opcua.sdk.client.OpcUaClient;
 import org.eclipse.milo.opcua.sdk.client.api.config.OpcUaClientConfigBuilder;
 import org.eclipse.milo.opcua.sdk.client.api.subscriptions.UaMonitoredItem;
@@ -31,28 +32,20 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Subscription {
-    public static void main(String[] args) {
+
+    public Subscription(){
+
+    }
+    public void subscribe(NodeId nodeId){
         try
         {
-            List<EndpointDescription> endpoints = DiscoveryClient.getEndpoints("opc.tcp://127.0.0.1:4840").get();
 
-            EndpointDescription epd = EndpointUtil.updateUrl(endpoints.get(0), "127.0.0.1", 4840);
-
-            OpcUaClientConfigBuilder cfg = new OpcUaClientConfigBuilder();
-
-            //edit endpoints.get(0)
-            cfg.setEndpoint(epd);
-
-            OpcUaClient client = OpcUaClient.create(cfg.build());
-            client.connect().get();
-
-            NodeId nodeId = NodeId.parse("ns=3;i=1009");
 
             // what to read
             ReadValueId readValueId = new ReadValueId(nodeId, AttributeId.Value.uid(), null, null);
 
             // create a subscription @ 1000ms
-            UaSubscription subscription = client.getSubscriptionManager().createSubscription(1000.0).get();
+            UaSubscription subscription = SimulationFacade.client.getSubscriptionManager().createSubscription(1000.0).get();
 
             // important: client handle must be unique per item
             UInteger clientHandle = subscription.getSubscriptionId();
@@ -89,6 +82,7 @@ public class Subscription {
         {
             ex.printStackTrace();
         }
+
 
     }
 
