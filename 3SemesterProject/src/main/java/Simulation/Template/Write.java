@@ -37,8 +37,6 @@ public class Write {
      /*   try
         {
 
-
-
             // 0 <= Value <= 65535
             NodeId nodeIdP0 = NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value");
             client.writeValue(nodeIdP0, DataValue.valueOnly(new Variant(18F))).get();

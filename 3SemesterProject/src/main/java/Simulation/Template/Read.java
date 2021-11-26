@@ -19,19 +19,20 @@ public class Read {
 
     }
 
-    public void read(NodeId nodeId){
+    public String read(NodeId nodeId){
         try
         {
             DataValue dataValue = SimulationFacade.client.readValue(0, TimestampsToReturn.Both, nodeId)
                     .get();
-            System.out.println("DataValue= " + dataValue);
+            //System.out.println("DataValue= " + dataValue + " id: " + nodeId);
 
-            Variant variant = dataValue.getValue();
 
-            System.out.println("Variant= " + variant);
+            if(dataValue.getValue().getValue() == null){
+                return "0";
+            }
 
-            short random =  (short) variant.getValue();
-            System.out.println("myVariable= " + random);
+
+            return String.valueOf(dataValue.getValue().getValue());
 
         }
         catch(Throwable ex)
@@ -39,6 +40,7 @@ public class Read {
             ex.printStackTrace();
         }
 
+        return null;
     }
 
 

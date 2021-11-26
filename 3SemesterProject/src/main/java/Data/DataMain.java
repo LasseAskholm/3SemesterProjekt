@@ -1,8 +1,15 @@
 package Data;
 
+import org.eclipse.milo.opcua.stack.core.types.builtin.NodeId;
+import org.eclipse.milo.opcua.stack.core.types.builtin.Variant;
+
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataMain {
 
@@ -77,6 +84,7 @@ public class DataMain {
             PreparedStatement pStmt=connection.prepareStatement(selectStmt);
             ResultSet resultSet = pStmt.executeQuery();
             resultSet.next();
+
             String returnString=resultSet.getString(1);
             String deleteString ="TRUNCATE TABLE commands";
             PreparedStatement pStmt2= connection.prepareStatement(deleteString);
@@ -90,8 +98,58 @@ public class DataMain {
     }
     public static void main(String[] args) throws SQLException {
         DataMain db = DataMain.getInstance();
-        testInsert("s");
 
+    }
+
+    public void liveUpdate(Map<String, String> map) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        //YYYY-MM-DD HH:MM:SS
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date(System.currentTimeMillis());
+        dateFormat.format(now);
+        /* + now + ", " + now + ", "+ */
+
+
+        try {
+            PreparedStatement prepStmt = connection.prepareStatement(
+                    "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration) " +
+                            "values (" + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ")");
+
+            int row = prepStmt.executeUpdate();
+
+            prepStmt.close();
+
+            System.out.println(row);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        connection.commit();
+
+
+
+         /*
+        map.forEach((k,v) -> {
+
+            String flo = v.getValue() != null ? Float.toString((Float) v.getValue()): "0";
+
+            try {
+                prepStmt.setString(, flo);
+
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+
+            System.out.println( " here ");
+            String test = "INSERT INTO live_batches(" + k + ") values("+ flo + ")";
+            PreparedStatement prep;
+
+
+
+        });*/
     }
 
 
@@ -120,4 +178,7 @@ public class DataMain {
 
         return returnList;
     }*/
+
+
+
 }
