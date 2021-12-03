@@ -17,7 +17,7 @@ public class JavaMain {
     public static void initialize() throws UaException, ExecutionException, InterruptedException, SQLException {
         db=DataMain.getInstance();
         simulationFacade = new SimulationFacade();
-        simRunning=false;
+        simRunning=true;
     }
 
 
@@ -66,10 +66,14 @@ public class JavaMain {
 
                 Map<String, String> map = simulationFacade.liveRead();
 
-                map.forEach((k, v) -> System.out.println("k: "+ k + "v: " + v));
-
                 db.liveUpdate(map);
+
+
+                Map<String, Float> inventory = simulationFacade.getInventory();
+
+                db.updateInventory(inventory);
             }
+
             Thread.sleep(5000);
         }
 

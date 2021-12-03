@@ -22,25 +22,31 @@ public class Read {
     public String read(NodeId nodeId){
         try
         {
-            DataValue dataValue = SimulationFacade.client.readValue(0, TimestampsToReturn.Both, nodeId)
+            DataValue dataValue = SimulationFacade.client.readValue(10, TimestampsToReturn.Both, nodeId)
                     .get();
-            //System.out.println("DataValue= " + dataValue + " id: " + nodeId);
+           // System.out.println("DataValue= " + dataValue + " id: " + nodeId);
 
 
-            if(dataValue.getValue().getValue() == null){
+            Variant variant = dataValue.getValue();
+
+           /* if(dataValue.getValue().getValue() == null){
                 return "0";
-            }
+            }*/
+
+            String s = String.valueOf(variant.getValue());
 
 
-            return String.valueOf(dataValue.getValue().getValue());
+            return s;
 
         }
         catch(Throwable ex)
         {
+
             ex.printStackTrace();
+            return "0";
         }
 
-        return null;
+
     }
 
 

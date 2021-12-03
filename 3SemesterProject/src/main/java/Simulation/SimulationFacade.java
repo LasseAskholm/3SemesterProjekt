@@ -58,9 +58,11 @@ public class SimulationFacade {
     public void subscribe(NodeId nodeId){
         subscription.subscribe(nodeId);
     }
+
     public String read(NodeId nodeId) throws ExecutionException, InterruptedException {
 
         return read.read(nodeId);
+
 
     }
 
@@ -80,14 +82,14 @@ public class SimulationFacade {
 
         HashMap<String, String> map = new HashMap<>();
 
-        map.put("prod_processed_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdProcessedCount.Value")));
-        map.put("prod_defective_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdDefectiveCount.Value")));
-        map.put("mach_speed", read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed.Value")));
+        map.put("prod_processed_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdProcessedCount")));
+        map.put("prod_defective_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdDefectiveCount")));
+        map.put("mach_speed", read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed")));
         map.put("humidity", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[2].Value")));
         map.put("temperature", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[3].Value")));
         map.put("vibration", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[4].Value")));
 
-        // TODO: 26-11-2021 add inventory
+
 
         return map;
     }
@@ -99,4 +101,17 @@ public class SimulationFacade {
     }
 
 
+    public Map<String, Float> getInventory() throws ExecutionException, InterruptedException {
+
+        HashMap<String, Float> map = new HashMap<>();
+
+        map.put("Barley", Float.parseFloat(read(NodeId.parse("ns=6;s=::Program:Inventory.Barley"))));
+        map.put("Hops", Float.parseFloat(read(NodeId.parse("ns=6;s=::Program:Inventory.Hops"))));
+        map.put("Malt", Float.parseFloat(read(NodeId.parse("ns=6;s=::Program:Inventory.Malt"))));
+        map.put("Wheat", Float.parseFloat(read(NodeId.parse("ns=6;s=::Program:Inventory.Wheat"))));
+        map.put("Yeast", Float.parseFloat(read(NodeId.parse("ns=6;s=::Program:Inventory.Yeast"))));
+
+
+        return map;
+    }
 }

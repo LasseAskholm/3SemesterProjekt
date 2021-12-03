@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 public class DataMain {
 
@@ -107,50 +108,80 @@ public class DataMain {
 
         //YYYY-MM-DD HH:MM:SS
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date(System.currentTimeMillis());
-        dateFormat.format(now);
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         /* + now + ", " + now + ", "+ */
-
+        
 
         try {
             PreparedStatement prepStmt = connection.prepareStatement(
                     "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration) " +
-                            "values (" + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ", " + map.get("prod_processed_count") + ")");
+                        "values (?, ?, " + map.get("prod_processed_count") + ", " + map.get("prod_defective_count") + ", " + map.get("mach_speed") + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") + ")");
+
+            prepStmt.setTimestamp(1, timestamp);
+            prepStmt.setTimestamp(2, timestamp);
+
 
             int row = prepStmt.executeUpdate();
 
             prepStmt.close();
 
-            System.out.println(row);
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
         connection.commit();
 
-
-
-         /*
-        map.forEach((k,v) -> {
-
-            String flo = v.getValue() != null ? Float.toString((Float) v.getValue()): "0";
-
-            try {
-                prepStmt.setString(, flo);
-
-            } catch (SQLException throwables) {
-                throwables.printStackTrace();
-            }
-
-            System.out.println( " here ");
-            String test = "INSERT INTO live_batches(" + k + ") values("+ flo + ")";
-            PreparedStatement prep;
-
-
-
-        });*/
     }
+
+    public void updateInventory(Map<String, Float> map) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        try {
+            PreparedStatement prepStmt = null;
+
+            prepStmt = connection.prepareStatement("UPDATE ingredients SET amount = ?, updated_at = ? WHERE product = ?");
+
+            prepStmt.setFloat(1, map.get("Barley"));
+            prepStmt.setTimestamp(2, timestamp);
+            prepStmt.setString(3, "Barley");
+            prepStmt.addBatch();
+
+            prepStmt.setFloat(1, map.get("Hops"));
+            prepStmt.setTimestamp(2, timestamp);
+            prepStmt.setString(3, "Hops");
+            prepStmt.addBatch();
+
+            prepStmt.setFloat(1, map.get("Malt"));
+            prepStmt.setTimestamp(2, timestamp);
+            prepStmt.setString(3, "Malt");
+            prepStmt.addBatch();
+
+            prepStmt.setFloat(1, map.get("Wheat"));
+            prepStmt.setTimestamp(2, timestamp);
+            prepStmt.setString(3, "Wheat");
+            prepStmt.addBatch();
+
+            prepStmt.setFloat(1, map.get("Yeast"));
+            prepStmt.setTimestamp(2, timestamp);
+            prepStmt.setString(3, "Yeast");
+            prepStmt.addBatch();
+
+            prepStmt.executeBatch();
+
+            prepStmt.close();
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+
+        connection.commit();
+
+    }
+
 
 
 
