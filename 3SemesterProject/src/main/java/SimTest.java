@@ -19,48 +19,55 @@ public class SimTest {
 
     public static void initialize() throws UaException, ExecutionException, InterruptedException, SQLException {
         sim = new SimulationFacade();
+
         simRunning=true;
     }
 
 
+    private static Float product = 0f;
+
     public static void main(String[] args) throws SQLException, UaException, ExecutionException, InterruptedException, IOException {
         initialize();
-        file = new File("C:/Users/Aksel/GitHub/3SemesterProjekt/data.txt");
+
+        //+/documents on laptop
+        file = new File("C:/Users/Aksel/Documents/GitHub/3SemesterProjekt/data.txt");
 
         //reset
         resetSim();
 
 
-        Float product = 1f;
+        for (float i = product; i <= 5; i++) {
 
-        int maxSpeed = 0;
+            product = i;
 
-        if (product == 0){
-            maxSpeed = 600;
-        }else if (product == 1){
-            maxSpeed = 300;
-        }else if (product == 2){
-            maxSpeed = 150;
-        }else if (product == 3){
-            maxSpeed = 200;
-        }else if (product == 4){
-            maxSpeed = 100;
-        }else if (product == 5){
-            maxSpeed = 125;
+            int maxSpeed = 0;
+
+            if (product == 0) {
+                maxSpeed = 600;
+            } else if (product == 1) {
+                maxSpeed = 300;
+            } else if (product == 2) {
+                maxSpeed = 150;
+            } else if (product == 3) {
+                maxSpeed = 200;
+            } else if (product == 4) {
+                maxSpeed = 100;
+            } else if (product == 5) {
+                maxSpeed = 125;
+            }
+
+            for (float j = 25; j <= maxSpeed; j = j + 25) {
+
+                startSim(product, j);
+
+                System.out.println("Started: " + product + " speed: " + j);
+                storeData();
+
+                resetSim();
+
+            }
+
         }
-
-        for (float j = 300; j <= maxSpeed; j=j+10) {
-
-            startSim(product, j);
-
-            System.out.println("Started: " + product + " speed: " + j);
-            storeData();
-
-            resetSim();
-
-        }
-
-
         //resetSim();
 
     }
@@ -78,7 +85,7 @@ public class SimTest {
         //product
         sim.write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
         //amount
-        sim.write(new Variant(Float.parseFloat("5000")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+        sim.write(new Variant(Float.parseFloat("100")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
 
         //start
         sim.write(new Variant(Integer.parseInt("2")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
@@ -89,11 +96,11 @@ public class SimTest {
 
         System.out.println("resetting");
         sim.write(new Variant(Integer.parseInt("3")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
         System.out.println("Waiting");
         sim.write(new Variant(Integer.parseInt("1")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
-        Thread.sleep(5000);
+        Thread.sleep(3000);
 
     }
 
@@ -101,12 +108,11 @@ public class SimTest {
 
         System.out.println("Sleeping Store");
         while(!sim.read(NodeId.parse("ns=6;s=::Program:Cube.Status.StateCurrent")).equals("17")){
-            Thread.sleep(5000);
+            Thread.sleep(3000);
         }
 
         System.out.println("Printing Data");
-        //product
-        String product = sim.read(NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
+
         //ns=6;s=::Program:Cube.Command.MachSpeed
         String machSpeed = sim.read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed"));
         //ns=6;s=::Program:Cube.Admin.ProdDefectiveCount
@@ -122,6 +128,13 @@ public class SimTest {
         fw.write("curSpeed: " + curSpeed + "\t");
         fw.write("defective: " + defective + "\t");
         fw.write("processed: " + processed + "\n");
+
+        fw.write(product + ",");
+        fw.write("machSpeed: " + machSpeed + "\t");
+        fw.write("curSpeed: " + curSpeed + "\t");
+        fw.write("defective: " + defective + "\t");
+        fw.write("processed: " + processed + "\n");
+
         fw.close();
 
     }
