@@ -1,59 +1,41 @@
-Product: 0.0	machSpeed: 25.0	curSpeed: 4.1666665	defective: 0	processed: 100
-Product: 0.0	machSpeed: 50.0	curSpeed: 8.333333	defective: 0	processed: 100
-Product: 0.0	machSpeed: 75.0	curSpeed: 12.5	defective: 0	processed: 100
-Product: 0.0	machSpeed: 100.0	curSpeed: 16.666666	defective: 0	processed: 100
-Product: 0.0	machSpeed: 125.0	curSpeed: 20.833334	defective: 0	processed: 100
-Product: 0.0	machSpeed: 150.0	curSpeed: 25.0	defective: 0	processed: 100
-Product: 0.0	machSpeed: 175.0	curSpeed: 29.166666	defective: 0	processed: 100
-Product: 0.0	machSpeed: 200.0	curSpeed: 33.333332	defective: 2	processed: 100
-Product: 0.0	machSpeed: 225.0	curSpeed: 37.5	defective: 0	processed: 100
-Product: 0.0	machSpeed: 250.0	curSpeed: 41.666668	defective: 0	processed: 100
-Product: 0.0	machSpeed: 275.0	curSpeed: 45.833332	defective: 0	processed: 100
-Product: 0.0	machSpeed: 300.0	curSpeed: 50.0	defective: 2	processed: 100
-Product: 0.0	machSpeed: 325.0	curSpeed: 54.166668	defective: 1	processed: 100
-Product: 0.0	machSpeed: 350.0	curSpeed: 58.333332	defective: 4	processed: 100
-Product: 0.0	machSpeed: 375.0	curSpeed: 62.5	defective: 4	processed: 100
-Product: 0.0	machSpeed: 400.0	curSpeed: 66.666664	defective: 4	processed: 100
-Product: 0.0	machSpeed: 425.0	curSpeed: 70.833336	defective: 8	processed: 100
-Product: 0.0	machSpeed: 450.0	curSpeed: 75.0	defective: 12	processed: 100
-Product: 0.0	machSpeed: 475.0	curSpeed: 79.166664	defective: 14	processed: 100
-Product: 0.0	machSpeed: 500.0	curSpeed: 83.333336	defective: 26	processed: 100
-Product: 0.0	machSpeed: 525.0	curSpeed: 87.5	defective: 23	processed: 100
-Product: 0.0	machSpeed: 550.0	curSpeed: 91.666664	defective: 30	processed: 100
-Product: 0.0	machSpeed: 575.0	curSpeed: 95.833336	defective: 43	processed: 100
-Product: 0.0	machSpeed: 600.0	curSpeed: 100.0	defective: 61	processed: 100
-Product: 1.0	machSpeed: 25.0	curSpeed: 8.333333	defective: 9	processed: 100
-Product: 1.0	machSpeed: 50.0	curSpeed: 16.666666	defective: 16	processed: 100
-Product: 1.0	machSpeed: 75.0	curSpeed: 25.0	defective: 17	processed: 100
-Product: 1.0	machSpeed: 100.0	curSpeed: 33.333332	defective: 43	processed: 100
-Product: 1.0	machSpeed: 125.0	curSpeed: 41.666668	defective: 44	processed: 100
-Product: 1.0	machSpeed: 150.0	curSpeed: 50.0	defective: 41	processed: 100
-Product: 1.0	machSpeed: 175.0	curSpeed: 58.333332	defective: 48	processed: 100
-Product: 1.0	machSpeed: 200.0	curSpeed: 66.666664	defective: 62	processed: 100
-Product: 1.0	machSpeed: 225.0	curSpeed: 75.0	defective: 77	processed: 100
-Product: 1.0	machSpeed: 250.0	curSpeed: 83.333336	defective: 82	processed: 100
-Product: 1.0	machSpeed: 275.0	curSpeed: 91.666664	defective: 95	processed: 100
-Product: 1.0	machSpeed: 300.0	curSpeed: 100.0	defective: 100	processed: 100
-Product: 2.0	machSpeed: 25.0	curSpeed: 16.666666	defective: 2	processed: 100
-Product: 2.0	machSpeed: 50.0	curSpeed: 33.333332	defective: 1	processed: 100
-Product: 2.0	machSpeed: 75.0	curSpeed: 50.0	defective: 10	processed: 100
-Product: 2.0	machSpeed: 100.0	curSpeed: 66.666664	defective: 11	processed: 100
-Product: 2.0	machSpeed: 125.0	curSpeed: 83.333336	defective: 62	processed: 100
-Product: 2.0	machSpeed: 150.0	curSpeed: 100.0	defective: 100	processed: 100
-Product: 3.0	machSpeed: 25.0	curSpeed: 12.5	defective: 49	processed: 100
-Product: 3.0	machSpeed: 50.0	curSpeed: 25.0	defective: 44	processed: 100
-Product: 3.0	machSpeed: 75.0	curSpeed: 37.5	defective: 47	processed: 100
-Product: 3.0	machSpeed: 100.0	curSpeed: 50.0	defective: 34	processed: 100
-Product: 3.0	machSpeed: 125.0	curSpeed: 62.5	defective: 37	processed: 100
-Product: 3.0	machSpeed: 150.0	curSpeed: 75.0	defective: 34	processed: 100
-Product: 3.0	machSpeed: 175.0	curSpeed: 87.5	defective: 34	processed: 100
-Product: 3.0	machSpeed: 200.0	curSpeed: 100.0	defective: 13	processed: 100
-Product: 4.0	machSpeed: 25.0	curSpeed: 25.0	defective: 2	processed: 100
-Product: 4.0	machSpeed: 50.0	curSpeed: 50.0	defective: 4	processed: 100
-Product: 4.0	machSpeed: 75.0	curSpeed: 75.0	defective: 18	processed: 100
-Product: 4.0	machSpeed: 100.0	curSpeed: 100.0	defective: 55	processed: 100
-Product: 5.0	machSpeed: 25.0	curSpeed: 20.0	defective: 17	processed: 100
-Product: 5.0	machSpeed: 50.0	curSpeed: 40.0	defective: 26	processed: 100
-Product: 5.0	machSpeed: 75.0	curSpeed: 60.0	defective: 49	processed: 100
-Product: 5.0	machSpeed: 100.0	curSpeed: 80.0	defective: 52	processed: 100
-Product: 5.0	machSpeed: 125.0	curSpeed: 100.0	defective: 75	processed: 100
+Product;machSpeed;curSpeed;defective;processed
+4.0;80.0;80.0;98;500
+4.0;90.0;90.0;144;500
+4.0;100.0;100.0;218;500
+Product;machSpeed;curSpeed;defective;processed
+Product;machSpeed;curSpeed;defective;processed
+Product;machSpeed;curSpeed;defective;processed
+2.0;50.0;33.333332;4;200
+2.0;60.0;40.0;2;200
+2.0;70.0;46.666668;8;200
+2.0;80.0;53.333332;17;200
+2.0;90.0;60.0;27;200
+2.0;100.0;66.666664;30;200
+2.0;110.0;73.333336;61;200
+2.0;120.0;80.0;82;200
+2.0;130.0;86.666664;135;200
+2.0;140.0;93.333336;200;200
+2.0;150.0;100.0;200;200
+4.0;50.0;50.0;6;200
+4.0;55.0;55.0;13;200
+4.0;60.0;60.0;17;200
+4.0;65.0;65.0;19;200
+4.0;70.0;70.0;33;200
+4.0;75.0;75.0;27;200
+4.0;80.0;80.0;34;200
+4.0;85.0;85.0;54;200
+4.0;90.0;90.0;72;200
+4.0;95.0;95.0;66;200
+4.0;100.0;100.0;87;200
+Product;machSpeed;curSpeed;defective;processed
+5.0;12.5;10.0;41;200
+5.0;23.75;19.0;41;200
+5.0;35.0;28.0;56;200
+5.0;46.25;37.0;61;200
+5.0;57.5;46.0;45;200
+5.0;68.75;55.0;74;200
+5.0;80.0;64.0;76;200
+5.0;91.25;73.0;87;200
+5.0;102.5;82.0;121;200
+5.0;113.75;91.0;115;200
+5.0;125.0;100.0;150;200

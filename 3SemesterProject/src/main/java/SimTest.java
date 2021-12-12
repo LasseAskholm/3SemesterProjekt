@@ -32,31 +32,47 @@ public class SimTest {
         //+/documents on laptop
         file = new File("C:/Users/Aksel/Documents/GitHub/3SemesterProjekt/data.txt");
 
+        //print headers
+        FileWriter fw = new FileWriter(file, true);
+        fw.write("Product" + ";");
+        fw.write("machSpeed;");
+        fw.write("curSpeed;");
+        fw.write("defective;");
+        fw.write("processed\n");
+        fw.close();
         //reset
         resetSim();
 
+        for (float i = 5; i <= 5; i++) {
 
-        for (float i = product; i <= 5; i++) {
 
             product = i;
 
-            int maxSpeed = 0;
+            float maxSpeed = 0;
+            float start = 0;
 
             if (product == 0) {
                 maxSpeed = 600;
             } else if (product == 1) {
                 maxSpeed = 300;
             } else if (product == 2) {
+                start = 50;
                 maxSpeed = 150;
             } else if (product == 3) {
-                maxSpeed = 200;
+                continue;
+               // maxSpeed = 200;
             } else if (product == 4) {
+                start = 50;
                 maxSpeed = 100;
             } else if (product == 5) {
+
                 maxSpeed = 125;
+                start = maxSpeed/10;
             }
 
-            for (float j = 25; j <= maxSpeed; j = j + 25) {
+            float add = (maxSpeed - start) / 10;
+
+            for (float j = start; j <= maxSpeed; j = j + add) {
 
                 startSim(product, j);
 
@@ -66,8 +82,8 @@ public class SimTest {
                 resetSim();
 
             }
-
         }
+
         //resetSim();
 
     }
@@ -85,7 +101,7 @@ public class SimTest {
         //product
         sim.write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
         //amount
-        sim.write(new Variant(Float.parseFloat("100")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+        sim.write(new Variant(Float.parseFloat("200")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
 
         //start
         sim.write(new Variant(Integer.parseInt("2")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
@@ -123,17 +139,12 @@ public class SimTest {
         String curSpeed = sim.read(NodeId.parse("ns=6;s=::Program:Cube.Status.CurMachSpeed"));
 
         FileWriter fw = new FileWriter(file, true);
-        fw.write("Product: " + product + "\t");
-        fw.write("machSpeed: " + machSpeed + "\t");
-        fw.write("curSpeed: " + curSpeed + "\t");
-        fw.write("defective: " + defective + "\t");
-        fw.write("processed: " + processed + "\n");
 
-        fw.write(product + ",");
-        fw.write("machSpeed: " + machSpeed + "\t");
-        fw.write("curSpeed: " + curSpeed + "\t");
-        fw.write("defective: " + defective + "\t");
-        fw.write("processed: " + processed + "\n");
+        fw.write(product + ";");
+        fw.write(machSpeed + ";");
+        fw.write(curSpeed + ";");
+        fw.write(defective + ";");
+        fw.write(processed + "\n");
 
         fw.close();
 
