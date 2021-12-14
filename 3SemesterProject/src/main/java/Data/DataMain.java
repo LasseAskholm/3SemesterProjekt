@@ -59,13 +59,13 @@ public class DataMain {
             if (connection == null) System.exit(-1);
         }
     }
-    private static Map<String,Integer> sendValues() throws SQLException {
+    public Map<String,Integer> sendValues() throws SQLException {
         Map<String,Integer> data = new HashMap<>();
         String read = "SELECT product_id, amount, speed FROM newbatches";
         PreparedStatement prep = connection.prepareStatement(read);
         ResultSet resultSet = prep.executeQuery();
         while(resultSet.next()){
-            data.put("product",resultSet.getInt(1));
+            data.put("product_id",resultSet.getInt(1));
             data.put("amount",resultSet.getInt(2));
             data.put("speed",resultSet.getInt(3));
         }
@@ -109,11 +109,7 @@ public class DataMain {
 
     }
     public static void main(String[] args) throws SQLException {
-        DataMain db = DataMain.getInstance();
-        Map<String,Integer> test = sendValues();
-        test.forEach((k,v)->{
-            System.out.println(k+": "+ v);
-        });
+
 
 
     }

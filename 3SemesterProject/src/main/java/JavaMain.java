@@ -14,10 +14,12 @@ public class JavaMain {
     private static DataMain db;
     private static SimulationFacade simulationFacade;
 
+
     public static void initialize() throws UaException, ExecutionException, InterruptedException, SQLException {
         db=DataMain.getInstance();
         simulationFacade = new SimulationFacade();
-        simRunning=true;
+        simRunning=false;
+
     }
 
 
@@ -32,26 +34,31 @@ public class JavaMain {
                 if (simRunning) {
                     if (command.equals("3")) { // stop the simulation
                         simRunning = false;
+                        System.out.println("stopped");
                         simulationFacade.write(new Variant(3), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
 
                     } else {
                         simulationFacade.write(new Variant(Integer.parseInt(command)), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+                        System.out.println("stop else");
                     }
 
                 } else {
                     if (command.equals("2")) { //Start simulation
                         System.out.println("Starting machine");
+                        simulationFacade.setSimValues(db.sendValues());
                         simRunning = true;
 
                         simulationFacade.write(new Variant(2), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
 
                     } else {
                         simulationFacade.write(new Variant(Integer.parseInt(command)), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+                        System.out.println("start else");
                     }
 
                     // wait for sim to start running
                 }
             }else if(simRunning){
+                System.out.println("live update");
                 //update live batch
                 /*
                 -id
