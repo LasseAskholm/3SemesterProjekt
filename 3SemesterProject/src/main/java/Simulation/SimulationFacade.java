@@ -90,6 +90,7 @@ public class SimulationFacade {
         map.put("humidity", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[2].Value")));
         map.put("temperature", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[3].Value")));
         map.put("vibration", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[4].Value")));
+        map.put("productID",read(NodeId.parse("ns=6;s=::Program:Cube.Admin.Parameter[0].Value")));
 
 
 
