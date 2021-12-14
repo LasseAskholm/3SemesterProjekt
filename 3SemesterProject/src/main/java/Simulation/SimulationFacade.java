@@ -116,4 +116,23 @@ public class SimulationFacade {
 
         return map;
     }
+    /*public void setSimValues() throws ExecutionException, InterruptedException {
+
+       Float speed =
+
+
+        //Speed
+       write(new Variant(), NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed"));
+        //batchID
+       write(new Variant(batchID), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
+        //product
+       write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
+        //amount
+       write(new Variant(amount), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+
+
+
+    }
+    
+     */
 }

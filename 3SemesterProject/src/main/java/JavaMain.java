@@ -42,6 +42,7 @@ public class JavaMain {
                     if (command.equals("2")) { //Start simulation
                         System.out.println("Starting machine");
                         simRunning = true;
+
                         simulationFacade.write(new Variant(2), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
 
                     } else {

@@ -7,9 +7,7 @@ import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Date;
 
 public class DataMain {
@@ -61,6 +59,20 @@ public class DataMain {
             if (connection == null) System.exit(-1);
         }
     }
+    private static Map<String,Integer> sendValues() throws SQLException {
+        Map<String,Integer> data = new HashMap<>();
+        String read = "SELECT product_id, amount, speed FROM newbatches";
+        PreparedStatement prep = connection.prepareStatement(read);
+        ResultSet resultSet = prep.executeQuery();
+        while(resultSet.next()){
+            data.put("product",resultSet.getInt(1));
+            data.put("amount",resultSet.getInt(2));
+            data.put("speed",resultSet.getInt(3));
+        }
+        prep.close();
+        return  data;
+    }
+
 
     private static void testInsert(String s) throws SQLException {
 
@@ -71,7 +83,6 @@ public class DataMain {
             prep.execute();
             prep.close();
             connection.commit();
-
         }catch (Exception e){
             System.out.println("caught");
             e.printStackTrace();
@@ -99,6 +110,11 @@ public class DataMain {
     }
     public static void main(String[] args) throws SQLException {
         DataMain db = DataMain.getInstance();
+        Map<String,Integer> test = sendValues();
+        test.forEach((k,v)->{
+            System.out.println(k+": "+ v);
+        });
+
 
     }
 
