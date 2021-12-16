@@ -132,7 +132,6 @@ public class DataMain {
             prepStmt.setTimestamp(1, timestamp);
             prepStmt.setTimestamp(2, timestamp);
             int productID=(int)Double.parseDouble(map.get("productID"));
-            productID+=10;
             prepStmt.setInt(3, productID);
             int row = prepStmt.executeUpdate();
 
