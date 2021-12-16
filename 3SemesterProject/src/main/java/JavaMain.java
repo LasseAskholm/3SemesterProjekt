@@ -25,10 +25,21 @@ public class JavaMain {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException, SQLException, UaException {
         initialize();
+        simulationFacade.resetSim();
+        db.resetTable("live_batches");
+        db.resetTable("batch_report");
+
+        Thread.sleep(1000);
+
+        simulationFacade.startSim(0f, 600f);
+
+        Thread.sleep(1000);
+        simRunning = true;
 
         while(true){
 
-            String command= db.getCommand();
+            String command = db.getCommand();
+            int state = Integer.parseInt(simulationFacade.getCurrentState());
 
             if(command != null) {
                 if (simRunning) {
@@ -76,16 +87,41 @@ public class JavaMain {
 
                 db.liveUpdate(map);
 
-
                 Map<String, Float> inventory = simulationFacade.getInventory();
 
                 db.updateInventory(inventory);
+
+
+
+                if (state != 6){
+                    simRunning = false;
+
+                    if(state == 17){
+                        System.out.println("Done. Making report");
+                        //batch report
+                        Map<String, String> batchDetails = simulationFacade.getBatchDetails();
+                        db.makeBatchReport(batchDetails);
+                        //reset
+                        //db.resetTable("live_batches");
+                        System.out.println("Report done!!");
+                        //simulationFacade.resetSim();
+                        System.exit(3);
+                    }
+
+                }
+
+
+            }else{
+                System.out.println("Current state: " + state);
             }
 
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         }
 
 
     }
+
+
+
 
 }

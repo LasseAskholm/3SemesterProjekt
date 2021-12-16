@@ -126,13 +126,17 @@ public class DataMain {
 
         try {
             PreparedStatement prepStmt = connection.prepareStatement(
-                    "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID) " +
-                        "values (?, ?, " + map.get("prod_processed_count") + ", " + map.get("prod_defective_count") + ", " + map.get("mach_speed") + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") +", ? "+")");
+                    "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID, stateID) " +
+                        "values (?, ?, " + map.get("prod_processed_count") + ", " + map.get("prod_defective_count") + ", " + map.get("mach_speed") + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") +", ?, ? "+")");
 
             prepStmt.setTimestamp(1, timestamp);
             prepStmt.setTimestamp(2, timestamp);
             int productID=(int)Double.parseDouble(map.get("productID"));
             prepStmt.setInt(3, productID);
+            int stateID=(int)Double.parseDouble(map.get("stateID"));
+            prepStmt.setInt(4, stateID);
+
+
             int row = prepStmt.executeUpdate();
 
 
@@ -192,6 +196,148 @@ public class DataMain {
         }
 
         connection.commit();
+
+    }
+
+    public boolean makeBatchReport(Map<String, String> batchDetails) throws SQLException {
+
+
+        Float amount = Float.parseFloat(batchDetails.get("amount"));
+        String batchID = batchDetails.get("batchID");
+        Float machspeed = Float.parseFloat(batchDetails.get("machspeed"));
+        String productID = batchDetails.get("productID");
+
+
+        //total time spent in seconds
+        Float totalTime = (amount/machspeed) * 60;
+
+
+        //1 entry every 5 seconds
+        Float numberOfEntries = totalTime/2;
+
+        Float count = (float) countRows();
+
+        Float step = count/10;
+
+
+
+
+        for (int i = 0; i < 10; i++) {
+
+            //average
+            Map<String, String> map = readTen(i*step, (i*step)+step);
+
+            //report
+            //id	created_at	updated_at	productID	prod_processed_count	prod_defective_count	mach_speed	humidity	temperature	vibration	batchID
+            writeTen(map, machspeed, productID, batchID);
+        }
+
+        return true;
+    }
+
+    private int countRows() throws SQLException {
+        String selectStmt = "select count(prod_processed_count) from live_batches";
+        PreparedStatement pStmt=connection.prepareStatement(selectStmt);
+        ResultSet result = pStmt.executeQuery();
+        if(result.next()){
+            return result.getInt(1);
+        }
+        return 0;
+    }
+
+    private void writeTen(Map<String, String> map, Float machspeed, String productID, String batchID) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        PreparedStatement prepStmt = connection.prepareStatement(
+                "INSERT INTO batch_report(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID, batchID) " +
+                        "values (?, ?, ?, ?"  +  ", ? "  + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") +", ?, ? "+")");
+
+        prepStmt.setTimestamp(1, timestamp);
+        prepStmt.setTimestamp(2, timestamp);
+        prepStmt.setString(3, map.get("processed"));
+        prepStmt.setString(4, map.get("defective"));
+        prepStmt.setString(5, String.valueOf(machspeed));
+        prepStmt.setString(6, productID);
+        int batch = (int) Double.parseDouble(batchID);
+        prepStmt.setInt(7, batch);
+
+        int row = prepStmt.executeUpdate();
+
+        prepStmt.close();
+
+        connection.commit();
+    }
+
+    private Map<String, String> readTen(Float start, Float stop) throws SQLException {
+
+        // read where id > star && id < stop
+
+        ArrayList<String> defective = new ArrayList<>(10);
+        ArrayList<String> humidity = new ArrayList<>(10);
+        ArrayList<String> temperature = new ArrayList<>(10);
+        ArrayList<String> vibration = new ArrayList<>(10);
+
+
+        for (double i = Math.floor(start) ; i <= Math.floor(stop); i++) {
+            String selectStmt="SELECT prod_defective_count, humidity, temperature, vibration from live_batches where id = ?";
+            PreparedStatement pStmt=connection.prepareStatement(selectStmt);
+            pStmt.setInt(1, (int) i);
+            ResultSet resultSet = pStmt.executeQuery();
+            if(resultSet.next()){
+                defective.add(resultSet.getString(1));
+                humidity.add(resultSet.getString(2));
+                temperature.add(resultSet.getString(3));
+                vibration.add(resultSet.getString(4));
+            }
+            pStmt.close();
+        }
+
+        // average
+
+        double sumDefective = defective.stream().mapToDouble(Double::parseDouble).sum();
+        double avgHumidity = humidity.stream().mapToDouble(Double::parseDouble).average().orElse(0.0);
+        double avgTemp = temperature.stream().mapToDouble(Double::parseDouble).average().orElse(0.0);
+        double avgVibration = vibration.stream().mapToDouble(Double::parseDouble).average().orElse(0.0);
+        double processedCount = 0;
+
+
+        String selectStmt = "SELECT prod_processed_count from live_batches where id = ?";
+        PreparedStatement pStmt=connection.prepareStatement(selectStmt);
+        pStmt.setInt(1, (int) Math.floor(stop));
+        ResultSet resultSet = pStmt.executeQuery();
+        if(resultSet.next()){
+            processedCount = Double.parseDouble(resultSet.getString(1));
+
+            System.out.println(processedCount +" at: " + (int) Math.floor(stop));
+        }else{
+            System.out.println("nothing in set at: " + (int) Math.floor(stop));
+        }
+        pStmt.close();
+
+
+        Map<String, String> map = new HashMap<>();
+        map.put("defective", String.valueOf(sumDefective));
+        map.put("humidity", String.valueOf(avgHumidity));
+        map.put("temperature", String.valueOf(avgTemp));
+        map.put("vibration", String.valueOf(avgVibration));
+        map.put("processed", String.valueOf(processedCount));
+
+
+        return map;
+
+        //return map : prod_processed_count(Largest)	prod_defective_count(sum of all) 	humidity(average)	temperature(average)	vibration(average)
+
+    }
+
+    public void resetTable(String tableName) throws SQLException {
+
+        String deleteString ="TRUNCATE TABLE "+ tableName;
+        PreparedStatement pStmt2= connection.prepareStatement(deleteString);
+
+        pStmt2.execute();
 
     }
 

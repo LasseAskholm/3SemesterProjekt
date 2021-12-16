@@ -52,7 +52,7 @@ public class SimulationFacade {
 
     }
 
-    public void write(Variant variant,NodeId nodeId) throws ExecutionException, InterruptedException {
+    public void write(Variant variant, NodeId nodeId) throws ExecutionException, InterruptedException {
         write.write(variant,nodeId);
         sendChangeRequest();
 
@@ -82,8 +82,12 @@ public class SimulationFacade {
         flo, vibration               ns=6;s=::Program:Cube.Status.Parameter[4].Value
         */
 
+
         HashMap<String, String> map = new HashMap<>();
 
+        String state = read(NodeId.parse("ns=6;s=::Program:Cube.Status.StateCurrent"));
+
+        map.put("stateID", state);
         map.put("prod_processed_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdProcessedCount")));
         map.put("prod_defective_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdDefectiveCount")));
         map.put("mach_speed", read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed")));
@@ -132,6 +136,58 @@ public class SimulationFacade {
 
 
     }
-    
 
+    public void resetSim() throws ExecutionException, InterruptedException {
+
+        System.out.println("resetting");
+        write(new Variant(Integer.parseInt("3")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+        Thread.sleep(3000);
+
+        System.out.println("Waiting");
+        write(new Variant(Integer.parseInt("1")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+        Thread.sleep(3000);
+
+    }
+
+    public void startSim(Float product, Float speed) throws ExecutionException, InterruptedException {
+
+        String prod = product.toString();
+
+        //Speed
+        write(new Variant(speed), NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed"));
+        //batch ID
+        write(new Variant(Float.parseFloat("101")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
+        //product
+        write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
+        //amount
+        write(new Variant(Float.parseFloat("500")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+
+        //start
+        write(new Variant(Integer.parseInt("2")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+
+    }
+
+
+    public Map<String, String> getBatchDetails() throws ExecutionException, InterruptedException {
+
+        String batchID = read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[0].Value"));
+
+        String amount = read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[1].Value"));
+        //machspeed
+        String machspeed = read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed"));
+        //productID
+        String productID = read(NodeId.parse("ns=6;s=::Program:Cube.Admin.Parameter[0].Value"));
+
+        Map<String, String> map = new HashMap<>();
+        map.put("batchID", batchID);
+        map.put("amount", amount);
+        map.put("machspeed", machspeed);
+        map.put("productID", productID);
+        return map;
+    }
+
+
+    public String getCurrentState() throws ExecutionException, InterruptedException {
+        return read(NodeId.parse("ns=6;s=::Program:Cube.Status.StateCurrent"));
+    }
 }
