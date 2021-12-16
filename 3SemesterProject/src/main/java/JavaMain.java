@@ -69,7 +69,7 @@ public class JavaMain {
                     // wait for sim to start running
                 }
             }else if(simRunning){
-                System.out.println("live update");
+                System.out.println("live update. State :" + state);
                 //update live batch
                 /*
                 -id
@@ -104,7 +104,7 @@ public class JavaMain {
                         //reset
                         //db.resetTable("live_batches");
                         System.out.println("Report done!!");
-                        //simulationFacade.resetSim();
+                        simulationFacade.resetSim();
                         System.exit(3);
                     }
 
@@ -113,6 +113,10 @@ public class JavaMain {
 
             }else{
                 System.out.println("Current state: " + state);
+
+                Map<String, String> map = simulationFacade.liveRead();
+
+                db.liveUpdate(map);
             }
 
             Thread.sleep(2000);
