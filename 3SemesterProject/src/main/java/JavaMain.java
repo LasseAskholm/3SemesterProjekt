@@ -105,7 +105,7 @@ public class JavaMain {
                         //db.resetTable("live_batches");
                         System.out.println("Report done!!");
                         simulationFacade.resetSim();
-                        System.exit(3);
+
                     }
 
                 }
@@ -116,7 +116,7 @@ public class JavaMain {
 
                 Map<String, String> map = simulationFacade.liveRead();
 
-                db.liveUpdate(map);
+               // db.liveUpdate(map);
             }
 
             Thread.sleep(2000);
