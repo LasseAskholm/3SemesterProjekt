@@ -41,6 +41,7 @@ public class JavaMain {
             String command = db.getCommand();
             int state = Integer.parseInt(simulationFacade.getCurrentState());
 
+            System.out.println("command: " + command);
             if(command != null) {
                 if (simRunning) {
                     if (command.equals("3")) { // stop the simulation
@@ -94,7 +95,7 @@ public class JavaMain {
 
 
                 if (state != 6){
-                    simRunning = false;
+                    //simRunning = false;
 
                     if(state == 17){
                         System.out.println("Done. Making report");

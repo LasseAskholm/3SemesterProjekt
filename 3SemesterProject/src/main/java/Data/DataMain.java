@@ -132,6 +132,9 @@ public class DataMain {
             prepStmt.setTimestamp(1, timestamp);
             prepStmt.setTimestamp(2, timestamp);
             int productID=(int)Double.parseDouble(map.get("productID"));
+            if(productID == -1){
+                return;
+            }
             prepStmt.setInt(3, productID);
             int stateID=(int)Double.parseDouble(map.get("stateID"));
             prepStmt.setInt(4, stateID);
