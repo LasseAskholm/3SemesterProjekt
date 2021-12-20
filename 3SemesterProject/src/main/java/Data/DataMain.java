@@ -213,16 +213,13 @@ public class DataMain {
 
     public boolean makeBatchReport(Map<String, String> batchDetails) throws SQLException {
 
-
         Float amount = Float.parseFloat(batchDetails.get("amount"));
         String batchID = batchDetails.get("batchID");
         Float machspeed = Float.parseFloat(batchDetails.get("machspeed"));
         String productID = batchDetails.get("productID");
 
-
         //total time spent in seconds
         Float totalTime = (amount/machspeed) * 60;
-
 
         //1 entry every 5 seconds
         Float numberOfEntries = totalTime/2;
@@ -230,8 +227,6 @@ public class DataMain {
         Float count = (float) countRows();
 
         Float step = count/10;
-
-
 
 
         for (int i = 0; i < 10; i++) {
@@ -261,7 +256,7 @@ public class DataMain {
 
         connection.setAutoCommit(false);
 
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        Timestamp timestamp = Timestamp.valueOf(map.get("time"));
 
         PreparedStatement prepStmt = connection.prepareStatement(
                 "INSERT INTO batch_report(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID, batchID) " +
@@ -314,15 +309,15 @@ public class DataMain {
         double avgTemp = temperature.stream().mapToDouble(Double::parseDouble).average().orElse(0.0);
         double avgVibration = vibration.stream().mapToDouble(Double::parseDouble).average().orElse(0.0);
         double processedCount = 0;
+        Timestamp time = new Timestamp(System.currentTimeMillis());
 
-
-        String selectStmt = "SELECT prod_processed_count from live_batches where id = ?";
+        String selectStmt = "SELECT prod_processed_count, created_at from live_batches where id = ?";
         PreparedStatement pStmt=connection.prepareStatement(selectStmt);
         pStmt.setInt(1, (int) Math.floor(stop));
         ResultSet resultSet = pStmt.executeQuery();
         if(resultSet.next()){
             processedCount = Double.parseDouble(resultSet.getString(1));
-
+            time = resultSet.getTimestamp(2);
             System.out.println(processedCount +" at: " + (int) Math.floor(stop));
         }else{
             System.out.println("nothing in set at: " + (int) Math.floor(stop));
@@ -336,6 +331,7 @@ public class DataMain {
         map.put("temperature", String.valueOf(avgTemp));
         map.put("vibration", String.valueOf(avgVibration));
         map.put("processed", String.valueOf(processedCount));
+        map.put("time", time.toString());
 
 
         return map;
