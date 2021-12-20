@@ -160,7 +160,7 @@ public class SimulationFacade {
         //product
         write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
         //amount
-        write(new Variant(Float.parseFloat("100")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+        write(new Variant(Float.parseFloat("200")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
 
         //start
         write(new Variant(Integer.parseInt("2")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));

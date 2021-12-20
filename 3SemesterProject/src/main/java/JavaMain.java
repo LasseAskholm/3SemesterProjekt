@@ -38,14 +38,16 @@ public class JavaMain {
 
         while(true){
 
+
             String command = db.getCommand();
             int state = Integer.parseInt(simulationFacade.getCurrentState());
+            db.setState(state);
 
             System.out.println("command: " + command);
             if(command != null) {
                 if (simRunning) {
                     if (command.equals("3")) { // stop the simulation
-                        simRunning = false;
+                        //simRunning = false;
                         System.out.println("stopped");
                         simulationFacade.write(new Variant(3), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
 

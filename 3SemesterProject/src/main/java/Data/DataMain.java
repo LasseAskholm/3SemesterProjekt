@@ -344,6 +344,27 @@ public class DataMain {
 
     }
 
+    public void setState(int stateIn) throws SQLException {
+
+        connection.setAutoCommit(false);
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        String statement = "INSERT INTO current_states(created_at, updated_at, state) VALUES (?,?,?)";
+
+
+        PreparedStatement pstm = connection.prepareStatement(statement);
+        pstm.setTimestamp(1,timestamp);
+        pstm.setTimestamp(2,timestamp);
+        pstm.setInt(3,stateIn);
+
+
+        pstm.executeUpdate();
+        pstm.close();
+
+        connection.commit();
+    }
+
 
 
 
