@@ -31,7 +31,7 @@ public class JavaMain {
 
         Thread.sleep(1000);
 
-        simulationFacade.startSim(0f, 600f);
+        //simulationFacade.startSim(0f, 600f);
 
         Thread.sleep(1000);
         simRunning = true;
@@ -39,7 +39,12 @@ public class JavaMain {
         while(true){
 
 
-            String command = db.getCommand();
+            Map<String, String> commandMap = db.getCommand();
+            String command = null;
+            if(commandMap != null){
+                command = commandMap.get("command");
+            }
+            
             int state = Integer.parseInt(simulationFacade.getCurrentState());
             db.setState(state);
 
@@ -59,7 +64,9 @@ public class JavaMain {
                 } else {
                     if (command.equals("2")) { //Start simulation
                         System.out.println("Starting machine");
-                        simulationFacade.setSimValues(db.sendValues());
+
+                        int batchID = Integer.parseInt(commandMap.get("batchID"));
+                        simulationFacade.setSimValues(db.sendValues(batchID));
                         simRunning = true;
 
                         simulationFacade.write(new Variant(2), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));

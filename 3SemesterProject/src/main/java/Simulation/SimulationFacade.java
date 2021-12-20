@@ -97,6 +97,15 @@ public class SimulationFacade {
         map.put("productID",read(NodeId.parse("ns=6;s=::Program:Cube.Admin.Parameter[0].Value")));
 
 
+        float humidity = Float.parseFloat(map.get("humidity"));
+        float temperature = Float.parseFloat(map.get("temperature"));
+        float vibration = Float.parseFloat(map.get("vibration"));
+
+        if(humidity < -1 || humidity > 10 || temperature < -1 || temperature > 10 || vibration < -1 || vibration > 10){
+            //stop
+            write(new Variant(Integer.parseInt("3")), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+        }
+
 
         return map;
     }
@@ -124,15 +133,20 @@ public class SimulationFacade {
     public void setSimValues(Map<String, Integer> data) throws ExecutionException, InterruptedException {
         Map<String, Integer> map = data;
         //Speed
-       write(new Variant(map.get("speed").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed"));
+        write(new Variant(map.get("speed").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed"));
         System.out.println(map.get("speed").floatValue());
-       //write(new Variant(batchID), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
+
         //product
-       write(new Variant(map.get("product_id").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
-        //amount
+        write(new Variant(map.get("product_id").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
         System.out.println(map.get("product_id").floatValue());
-       write(new Variant(map.get("amount").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
+
+        //amount
+        write(new Variant(map.get("amount").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[2].Value"));
         System.out.println(map.get("amount").floatValue());
+
+        //batch ID
+        write(new Variant(map.get("batchID").floatValue()), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
+        System.out.println(map.get("batchID").floatValue());
 
 
     }
@@ -156,7 +170,7 @@ public class SimulationFacade {
         //Speed
         write(new Variant(speed), NodeId.parse("ns=6;s=::Program:Cube.Command.MachSpeed"));
         //batch ID
-        write(new Variant(Float.parseFloat("101")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
+        write(new Variant(Float.parseFloat("batchID")), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[0].Value"));
         //product
         write(new Variant(Float.parseFloat(prod)), NodeId.parse("ns=6;s=::Program:Cube.Command.Parameter[1].Value"));
         //amount

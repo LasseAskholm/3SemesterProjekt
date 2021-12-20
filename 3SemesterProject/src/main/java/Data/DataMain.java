@@ -59,18 +59,19 @@ public class DataMain {
             if (connection == null) System.exit(-1);
         }
     }
-    public Map<String,Integer> sendValues() throws SQLException {
+    public Map<String,Integer> sendValues(int id) throws SQLException {
         Map<String,Integer> data = new HashMap<>();
-        String read = "SELECT product_id, amount, speed FROM newbatches";
+        String read = "SELECT product_id, amount, speed, batchID FROM newbatches";
         PreparedStatement prep = connection.prepareStatement(read);
         ResultSet resultSet = prep.executeQuery();
         while(resultSet.next()){
             data.put("product_id",resultSet.getInt(1));
             data.put("amount",resultSet.getInt(2));
             data.put("speed",resultSet.getInt(3));
+            data.put("batchID",resultSet.getInt(4));
         }
         prep.close();
-        return  data;
+        return data;
     }
 
 
@@ -90,18 +91,25 @@ public class DataMain {
 
 
     }
-    public String getCommand() throws SQLException {
+    public Map<String, String> getCommand() throws SQLException {
         try{
-            String selectStmt="SELECT command from commands";
+            String selectStmt="SELECT command, batchID from commands";
             PreparedStatement pStmt=connection.prepareStatement(selectStmt);
             ResultSet resultSet = pStmt.executeQuery();
             resultSet.next();
 
-            String returnString=resultSet.getString(1);
+            String command=resultSet.getString(1);
+            String batchID=resultSet.getString(2);
+
+            Map<String, String> map = new HashMap<>();
+            map.put("command", command);
+            map.put("batchID", batchID);
+
             String deleteString ="TRUNCATE TABLE commands";
             PreparedStatement pStmt2= connection.prepareStatement(deleteString);
             pStmt2.execute();
-            return returnString;
+
+            return map;
         }catch (SQLException e){
             return null;
 
