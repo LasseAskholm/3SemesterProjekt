@@ -61,8 +61,9 @@ public class DataMain {
     }
     public Map<String,Integer> sendValues(int id) throws SQLException {
         Map<String,Integer> data = new HashMap<>();
-        String read = "SELECT product_id, amount, speed, batchID FROM newbatches";
+        String read = "SELECT product_id, amount, speed, batchID FROM newbatches WHERE batchID = ?";
         PreparedStatement prep = connection.prepareStatement(read);
+        prep.setInt(1, id);
         ResultSet resultSet = prep.executeQuery();
         while(resultSet.next()){
             data.put("product_id",resultSet.getInt(1));

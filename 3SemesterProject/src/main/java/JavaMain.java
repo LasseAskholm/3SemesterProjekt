@@ -38,13 +38,12 @@ public class JavaMain {
 
         while(true){
 
-
             Map<String, String> commandMap = db.getCommand();
             String command = null;
             if(commandMap != null){
                 command = commandMap.get("command");
             }
-            
+
             int state = Integer.parseInt(simulationFacade.getCurrentState());
             db.setState(state);
 
@@ -56,7 +55,16 @@ public class JavaMain {
                         System.out.println("stopped");
                         simulationFacade.write(new Variant(3), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
 
-                    } else {
+                    } else if (command.equals("2")) { //Start simulation
+                        System.out.println("Starting machine");
+
+                        int batchID = Integer.parseInt(commandMap.get("batchID"));
+                        simulationFacade.setSimValues(db.sendValues(batchID));
+                        simRunning = true;
+
+                        simulationFacade.write(new Variant(2), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
+
+                    }else{
                         simulationFacade.write(new Variant(Integer.parseInt(command)), NodeId.parse("ns=6;s=::Program:Cube.Command.CntrlCmd"));
                         System.out.println("stop else");
                     }
