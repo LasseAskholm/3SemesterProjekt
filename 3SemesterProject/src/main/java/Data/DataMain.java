@@ -135,8 +135,8 @@ public class DataMain {
 
         try {
             PreparedStatement prepStmt = connection.prepareStatement(
-                    "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID, stateID) " +
-                        "values (?, ?, " + map.get("prod_processed_count") + ", " + map.get("prod_defective_count") + ", " + map.get("mach_speed") + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") +", ?, ? "+")");
+                    "INSERT INTO live_batches(created_at, updated_at, prod_processed_count, prod_defective_count, mach_speed, humidity, temperature, vibration, productID, stateID, batchID) " +
+                        "values (?, ?, " + map.get("prod_processed_count") + ", " + map.get("prod_defective_count") + ", " + map.get("mach_speed") + ", " + map.get("humidity") + ", " + map.get("temperature") + ", " + map.get("vibration") +", ?, ?, ? "+")");
 
             prepStmt.setTimestamp(1, timestamp);
             prepStmt.setTimestamp(2, timestamp);
@@ -147,6 +147,8 @@ public class DataMain {
             prepStmt.setInt(3, productID);
             int stateID=(int)Double.parseDouble(map.get("stateID"));
             prepStmt.setInt(4, stateID);
+            int batchID=(int)Double.parseDouble(map.get("batchID"));
+            prepStmt.setInt(5, batchID);
 
 
             int row = prepStmt.executeUpdate();
