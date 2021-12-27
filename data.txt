@@ -75,3 +75,4 @@ Product;machSpeed;curSpeed;defective;processed
 1.0;290.0;96.666664;190;200
 1.0;300.0;100.0;200;200
 Product;machSpeed;curSpeed;defective;processed
+Product;machSpeed;curSpeed;defective;processed

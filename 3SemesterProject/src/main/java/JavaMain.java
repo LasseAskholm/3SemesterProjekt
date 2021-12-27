@@ -59,6 +59,7 @@ public class JavaMain {
                         System.out.println("Starting machine");
 
                         int batchID = Integer.parseInt(commandMap.get("batchID"));
+                        System.out.println(db.sendValues(batchID));
                         simulationFacade.setSimValues(db.sendValues(batchID));
                         simRunning = true;
 
