@@ -43,10 +43,24 @@ public class SimTest {
         //reset
         resetSim();
 
-        for (float i = 5; i <= 5; i++) {
+
+        /**
+         * todo: product type 1 ond 3
+         *
+         * 1: 0-300
+         * Have 25*n
+         * Specific interest: 100-200
+         *
+         *
+         * 3: 0-200
+         * Have 25*n
+         * Specific interest: close to max
+         *
+         */
+        for (float i = 1; i <= 10; i++) {
 
 
-            product = i;
+            product = 1f;
 
             float maxSpeed = 0;
             float start = 0;
@@ -54,23 +68,23 @@ public class SimTest {
             if (product == 0) {
                 maxSpeed = 600;
             } else if (product == 1) {
+                start = 100;
                 maxSpeed = 300;
             } else if (product == 2) {
                 start = 50;
                 maxSpeed = 150;
             } else if (product == 3) {
-                continue;
-               // maxSpeed = 200;
+                start = 120;
+                maxSpeed = 200;
             } else if (product == 4) {
                 start = 50;
                 maxSpeed = 100;
             } else if (product == 5) {
-
                 maxSpeed = 125;
                 start = maxSpeed/10;
             }
 
-            float add = (maxSpeed - start) / 10;
+            float add = 10;
 
             for (float j = start; j <= maxSpeed; j = j + add) {
 

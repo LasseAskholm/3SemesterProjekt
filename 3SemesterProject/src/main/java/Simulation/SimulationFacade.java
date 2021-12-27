@@ -37,15 +37,15 @@ public class SimulationFacade {
     }
 
     public static void connect() throws UaException, ExecutionException, InterruptedException {
-        List<EndpointDescription> endpoints = DiscoveryClient.getEndpoints("opc.tcp://127.0.0.1:4840").get();
-       // List<EndpointDescription> machineEndpoints = DiscoveryClient.getEndpoints("opc.tcp://192.168.0.122:4840").get();
-        EndpointDescription epd = EndpointUtil.updateUrl(endpoints.get(0), "127.0.0.1", 4840);
-        //EndpointDescription machineEpd = EndpointUtil.updateUrl(machineEndpoints.get(0), "192.168.0.122", 4840);
+        //List<EndpointDescription> endpoints = DiscoveryClient.getEndpoints("opc.tcp://127.0.0.1:4840").get();
+        List<EndpointDescription> machineEndpoints = DiscoveryClient.getEndpoints("opc.tcp://192.168.0.122:4840").get();
+        //EndpointDescription epd = EndpointUtil.updateUrl(endpoints.get(0), "127.0.0.1", 4840);
+        EndpointDescription machineEpd = EndpointUtil.updateUrl(machineEndpoints.get(0), "192.168.0.122", 4840);
 
 
         OpcUaClientConfigBuilder cfg = new OpcUaClientConfigBuilder();
 
-        cfg.setEndpoint(epd);
+        cfg.setEndpoint(machineEpd);
 
         client = OpcUaClient.create(cfg.build());
         client.connect().get();
