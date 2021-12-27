@@ -91,6 +91,7 @@ public class SimulationFacade {
         map.put("prod_processed_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdProcessedCount")));
         map.put("prod_defective_count", read(NodeId.parse("ns=6;s=::Program:Cube.Admin.ProdDefectiveCount")));
         map.put("mach_speed", read(NodeId.parse("ns=6;s=::Program:Cube.Status.MachSpeed")));
+        map.put("batchID", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[0].Value")));
         map.put("humidity", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[2].Value")));
         map.put("temperature", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[3].Value")));
         map.put("vibration", read(NodeId.parse("ns=6;s=::Program:Cube.Status.Parameter[4].Value")));
